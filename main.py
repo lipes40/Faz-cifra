@@ -14,10 +14,10 @@ armazenamento = {}
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"], # em produção, NÃO use "*"
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["GET", "POST"],
-    allow_headers=["Authorization", "Content-Type"]
+    allow_headers=["*"]
 )
 
 class Dados(BaseModel):
