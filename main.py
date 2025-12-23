@@ -88,26 +88,26 @@ def cria_json(soup, lyrics):
         capo = str(capo.text[0])
 
 
-    ydl_opts = {
-            "quiet": True,
-            "skip_download": True,
-            "default_search": "ytsearch1",
-            "no_warnings": True,
-        }
+    # ydl_opts = {
+    #         "quiet": True,
+    #         "skip_download": True,
+    #         "default_search": "ytsearch1",
+    #         "no_warnings": True,
+    #     }
 
-    with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-        info = ydl.extract_info(name + " - " + artist, download=False)
-        if "entries" in info and info["entries"]:
-            link_youtube = info["entries"][0]["webpage_url"]
-        else:
-            link_youtube = ""
+    # with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+    #     info = ydl.extract_info(name + " - " + artist, download=False)
+    #     if "entries" in info and info["entries"]:
+    #         link_youtube = info["entries"][0]["webpage_url"]
+    #     else:
+    #         link_youtube = ""
 
     dados = {
     "name": name,
     "artist": artist,
     "to": tom,
     "lyrics": lyrics,
-    "reference_link": link_youtube,
+    # "reference_link": link_youtube,
     "capo": capo
     }
     
