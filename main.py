@@ -53,10 +53,13 @@ def faz_cifra(soup):
 
     for i in result:
 
+        if i.find("<span") != -1:
+            continue
+
         i = i.replace("[", "--- ").replace("]", "")
 
         if "<" in i or len(i.strip()) == 0:
-            mapa += i.replace("<b>", "").replace("</b>", "").replace("""<span class="cnt">""", "").replace("</span>", "").replace("""<span class="tablatura">""", "")
+            mapa += i.replace("<b>", "").replace("</b>", "")
             continue
         
         if len(mapa) > 0:
