@@ -12,7 +12,7 @@ import json
 
 app = FastAPI()
 
-app.mount("/", StaticFiles(directory=".", html=True), name="static")
+app.mount("/static", StaticFiles(directory="static", html=True), name="static")
 
 
 armazenamento = {}
@@ -21,7 +21,7 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
     allow_credentials=True,
-    allow_methods=["GET", "POST"],
+    allow_methods=["*"],
     allow_headers=["*"]
 )
 
