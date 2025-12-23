@@ -38,6 +38,8 @@ function baixar() {
     }
     console.log("baixando")
     window.location.href = `/baixar/${fileid}`
+    fileid = null
+    document.getElementById("saida").innerText = ""
 }
 
 function copiar(){
