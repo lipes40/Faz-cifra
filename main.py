@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import StreamingResponse
+from fastapi.staticfiles import StaticFiles
 import yt_dlp
 import io
 import uuid
@@ -10,6 +11,10 @@ from bs4 import BeautifulSoup
 import json
 
 app = FastAPI()
+
+app.mount("/", StaticFiles(directory=".", html=True), name="static")
+
+
 armazenamento = {}
 
 app.add_middleware(
