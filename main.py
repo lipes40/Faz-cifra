@@ -12,7 +12,10 @@ import json
 
 app = FastAPI()
 
-app.mount("/static", StaticFiles(directory="static", html=True), name="static")
+@app.get("/")
+
+def ler_index():
+    return FileResponse('static/index.html')
 
 
 armazenamento = {}
