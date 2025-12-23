@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Faz cifra!</title>
+</head>
+<body>
+    <input type="text" id="url">
+    <button onclick="gerar()">Gerar cifra</button>
+    <button onclick="copiar()">Copiar cifra</button>
+    <button onclick="baixar()">baixar cifra</button>
+
+    <pre id="saida"></pre>
+</body>
+<script>
+let fileid = null
+
+async function gerar() {
+    const res = await fetch("http://127.0.0.1:8000/executar", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            url: document.getElementById("url").value
+        })
+    })
+
+    const data = await res.json()
+    document.getElementById("saida").innerText = data.resultado
+    fileid = data.file_id
+    console.log(fileid)
+}
+
+function baixar() {
+    if (!fileid) {
+        alert("Coloque o link da cifra da música primeiro")
+        return
+    }
+    console.log("foi")
+    window.location.href = `http://127.0.0.1:8000/baixar/${fileid}`
+}
+
+function copiar(){
+    const texto = document.getElementById("saida").innerText
+
+    navigator.clipboard.writeText(texto)
+}
+</script>
+</html>
