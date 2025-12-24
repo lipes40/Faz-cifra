@@ -91,7 +91,7 @@ def cria_json(soup, lyrics):
     if capo == None:
         capo = 0
     else:
-        capo = str(capo.text[0])
+        capo = int(capo.text[0])
 
 
     # ydl_opts = {
