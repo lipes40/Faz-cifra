@@ -158,6 +158,6 @@ def baixar(file_id: str):
         buffer,
         media_type="application/json",
         headers={
-            "Content-Disposition": f"attachment; filename={name_file}.json"
+            "Content-Disposition": f"attachment; filename={name_file}"
         }
     )
