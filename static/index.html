@@ -8,7 +8,7 @@
     <style>
 
         *{
-            background-color: #111111;
+            background-color: #212121;
         }
 
         body{
@@ -17,7 +17,7 @@
             flex-direction: column;
             justify-content: center;
             gap: 20px;
-            background-color: #111111
+            background-color: #212121
         }
 
         header{
@@ -30,14 +30,15 @@
         }
 
         input{
-            background-color: #111111;
-            border-color: gray;
+            background-color: #303030; 
             color: white;
+            padding-left: 10px;
             width: 100%;
             font-size: large;
             height: 50px;
             justify-self: center;
             border-radius: 15px;
+            border: none;
             transition: 0.2s;
         }
 
@@ -70,12 +71,13 @@
         }
 
         .cifra{
-            display: none;
-            /* display: flex; */
+            /* display: none; */
+            display: flex;
             flex-direction: column;
             width: 600px;
+            background-color: #171717;
             justify-content: center;
-            border: 5px solid gray;
+            border: 5px solid #303030;
             border-radius: 15px;
             align-items: center;
             height: 100%;
@@ -89,9 +91,9 @@
         .btns-cifra{
             width: 100%;
             display: flex;
+            background-color: #171717;
             align-items: center;
-            justify-content: space-around;
-            height: 10vh;
+            justify-content: space-between;
         }
 
         .gerar{
@@ -99,8 +101,53 @@
             height: 5vh;
         }
 
+        .class-btn-cifra-esquerdo{
+            display: flex;
+            font-family: Arial, Helvetica, sans-serif;
+            font-weight: 100;
+            justify-content: center;
+            align-items: center;
+            background-color: #171717;
+            color: #f3f3f3;
+            width: 100%;
+            font-size: small;
+        }
+
+        .class-btn-cifra-esquerdo{
+            display: flex;
+            font-family: Arial, Helvetica, sans-serif;
+            font-weight: 100;
+            justify-content: start;
+            align-items: center;
+            background-color: #171717;
+            color: #f3f3f3;
+            width: 100%;
+            font-size: small;
+        }
+
+        .class-btn-cifra-direito{
+            display: flex;
+            font-family: Arial, Helvetica, sans-serif;
+            font-weight: 100;
+            justify-content: end;
+            align-items: center;
+            background-color: #171717;
+            color: #f3f3f3;
+            width: 100%;
+            font-size: small;
+        }
+
+        .class-btn-cifra-esquerdo:hover{
+            background: none;
+        }
+
+        .class-btn-cifra-.direito{
+            background: none;
+        }
+
         pre{
             display: flex;
+            background-color: #171717;
             width: 100%;
             justify-content: center;
             color: white;
@@ -108,6 +155,17 @@
             border-radius: 15px;
             height: 100%;
             transition: 0.2s;
+        }
+
+        img{
+            width: 15px;
+            background: none;
+            margin-right: 5px;
+            height: 100%;
+        }
+
+        .baixar{
+            width: 13px;
         }
 
 
@@ -153,8 +211,8 @@
 
     <div class="cifra" id="cifra">
         <div class="btns-cifra">
-            <button class="button-cifra" onclick="copiar()">Copiar cifra</button>
-            <button onclick="baixar()">baixar cifra</button>
+            <button class="class-btn-cifra-esquerdo" onclick="copiar()"><img src="img/copy.png"> Copiar</button>
+            <button class="class-btn-cifra-direito" onclick="baixar()"><img class="baixar" src="img/download.png" alt=""> baixar</button>
         </div>
         <pre id="saida"></pre>
     </div>
@@ -193,6 +251,8 @@ function baixar() {
     console.log("baixando")
     window.location.href = `/baixar/${fileid}`
     fileid = null
+
+    cifra.style.display = "none"
     document.getElementById("saida").innerText = ""
 }
 
