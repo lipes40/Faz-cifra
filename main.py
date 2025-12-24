@@ -120,6 +120,8 @@ def cria_json(soup, lyrics):
 @app.post("/executar")
 
 def executar(dados: Dados):
+    if dados.url == "":
+        return {"resultado": ""}
     html = pega_html(dados.url)
     lyric = faz_cifra(html)
     file = cria_json(html, lyric)
