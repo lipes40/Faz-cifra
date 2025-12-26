@@ -34,6 +34,8 @@ app.add_middleware(
 class Dados(BaseModel):
     url: str
 
+# Pega da cifra com base no link
+
 
 def pega_html(url):
     response = requests.get(url)
@@ -43,6 +45,8 @@ def pega_html(url):
     soup = BeautifulSoup(response.text, 'html.parser')
 
     return soup
+
+# Tratamento da cifra para o padrão PRK
 
 def faz_cifra(soup):
 
@@ -56,7 +60,7 @@ def faz_cifra(soup):
 
     for i in result:
 
-        if i.find("<span") != -1:
+        if i.find("<span") != -1 or i.count("-") > 10:
             continue
 
         i = i.replace("[", "--- ").replace("]", "")
@@ -64,19 +68,66 @@ def faz_cifra(soup):
         if "<" in i or len(i.strip()) == 0:
             mapa += i.replace("<b>", "").replace("</b>", "")
             continue
-        
-        if len(mapa) > 0:
-            final += mapa
-            mapa = ""
 
         pos = i.rfind("\n")
-        dif = len(i) - pos
 
-        if i == result[-1]:
-            final += i
-            continue
-        final += i[:pos] + "\n"
+        if pos == 0:
+            pos = len(i)
+
+        dif = len(i) - pos
+                
+        if len(mapa) > 0:
+            final += mapa
+            amostra = mapa
+            mapa = ""
+        else:
+            amostra = ""
+
+        # if i == result[-1]:
+        #     final += i
+        #     continue
+
+        i = i[:pos]
+
+        cont = 0
+        cont2 = 1
+
+        # print("amostra" + repr(amostra))
+        # print("i" + repr(i))
+
+        invalido = True
+
+        suposto = i
+
+        for j in amostra:
+            if j == "-" or "---" in  i.strip()[:3]:
+                break
+            if len(j.strip()) == 0 or j == "!":
+                cont += 1
+                invalido = False
+                continue
+            if invalido:
+                continue
+            cont += cont2
+
+            try:
+                if len(i[cont-1].strip()) == 0:
+                    continue
+
+            except:
+                pass
+
+            suposto = i[:cont] + "|" + i[cont:]
+            cont2  = 2
+            invalido = True
+    
+        if not cont >= len(i):
+            i = suposto
+
+        final += i + "\n"
         mapa +="!" + (" " * (dif -2))
+
+    final = final[:len(final) -1]
 
     return(final)
 
