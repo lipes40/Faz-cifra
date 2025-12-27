@@ -38,7 +38,10 @@ class Dados(BaseModel):
 
 
 def pega_html(url):
-    response = requests.get(url)
+    try:
+        response = requests.get(url)
+    except:
+        return "Error: URL Inválida"
 
     html = response.content
 
@@ -177,6 +180,8 @@ def executar(dados: Dados):
     if dados.url == "":
         return {"resultado": ""}
     html = pega_html(dados.url)
+    if type(html) == str:
+        return {"error": html}
     lyric = faz_cifra(html)
     file = cria_json(html, lyric)
 

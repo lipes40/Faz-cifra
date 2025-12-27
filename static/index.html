@@ -46,6 +46,22 @@
             transform: scale(1.05);
         }
 
+        .colar{
+            background: none;
+            width: 30px;
+        }
+
+        .colar:hover{
+            background: none;
+        }
+
+        .img-colar{
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            margin: 0;
+        }
+
         button{
             background-color: rgb(234 88 12);
             border-radius: 15px;
@@ -65,9 +81,9 @@
 
         .entrada{
             display: flex;
+            gap: 10px;
             width: 50%;
             height: 100%;
-            gap: 10px;
         }
 
         .cifra{
@@ -90,59 +106,22 @@
 
         .btns-cifra{
             width: 100%;
+            height: 60px;
             display: flex;
             background-color: #171717;
             align-items: center;
-            justify-content: space-between;
+            justify-content: space-evenly;
+        }
+
+        .btn-cifra{
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .gerar{
             width: 20vw;
             height: 5vh;
-        }
-
-        .class-btn-cifra-esquerdo{
-            display: flex;
-            font-family: Arial, Helvetica, sans-serif;
-            font-weight: 100;
-            justify-content: center;
-            align-items: center;
-            background-color: #171717;
-            color: #f3f3f3;
-            width: 100%;
-            font-size: small;
-        }
-
-        .class-btn-cifra-esquerdo{
-            display: flex;
-            font-family: Arial, Helvetica, sans-serif;
-            font-weight: 100;
-            justify-content: start;
-            align-items: center;
-            background-color: #171717;
-            color: #f3f3f3;
-            width: 100%;
-            font-size: small;
-        }
-
-        .class-btn-cifra-direito{
-            display: flex;
-            font-family: Arial, Helvetica, sans-serif;
-            font-weight: 100;
-            justify-content: end;
-            align-items: center;
-            background-color: #171717;
-            color: #f3f3f3;
-            width: 100%;
-            font-size: small;
-        }
-
-        .class-btn-cifra-esquerdo:hover{
-            background: none;
-        }
-
-        .class-btn-cifra-direito:hover{
-            background: none;
         }
 
         pre{
@@ -157,15 +136,21 @@
             transition: 0.2s;
         }
 
+        .carregando{
+            background: none;
+            display: none;
+        }
+
         img{
-            width: 15px;
+            width: 20px;
             background: none;
             margin-right: 5px;
-            height: 100%;
+            height: 20px;
         }
 
         .baixar{
-            width: 13px;
+            width: 17px;
+            height: 17px;
         }
 
 
@@ -205,14 +190,17 @@
 
     <div class="entrada">
             <input placeholder="Cole aqui a url da cifra da musica:" type="text" id="url">
+            <button class="colar" onclick="colar()"><img class="img-colar" src="img/clipboard.png" alt="colar"></button>
     </div>
     <button class="gerar" onclick="gerar()">Gerar cifra</button>
+
+    <pre class="carregando" id="carregando"></pre>
 
 
     <div class="cifra" id="cifra">
         <div class="btns-cifra">
-            <button class="class-btn-cifra-esquerdo" onclick="copiar()"><img src="img/copy.png"> Copiar</button>
-            <button class="class-btn-cifra-direito" onclick="baixar()"><img class="baixar" src="img/download.png" alt=""> baixar</button>
+            <button class="btn-cifra" onclick="copiar()"><img src="img/copy.png"> Copiar</button>
+            <button class="btn-cifra" onclick="baixar()"><img class="baixar" src="img/downloads.png"> baixar</button>
         </div>
         <pre id="saida"></pre>
     </div>
@@ -222,10 +210,16 @@ let fileid = null
 
 async function gerar() {
     const url = document.getElementById("url").value
+    const cifra = document.getElementById("cifra")
+    const pre = document.getElementById("saida")
+    const carregando = document.getElementById("carregando")
 
     if (url == "") {
         return
     }
+
+    carregando.style.display = "flex"
+
     const res = await fetch("/executar", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -235,11 +229,23 @@ async function gerar() {
     })
 
     const data = await res.json()
-    document.getElementById("saida").innerText = data.resultado
+
+    if (data.error){
+        carregando.innerText = data.error
+        carregando.style.color = "red"
+        carregando.style.display = "flex"
+        return
+    }
+    else {
+        carregando.style.display = "none"
+        carregando.innerText = "Carregando..."
+        carregando.style.color = "white"
+    }
+
+    pre.innerText = data.resultado
     fileid = data.file_id
     console.log(fileid)
 
-    const cifra = document.getElementById("cifra")
     cifra.style.display = "flex"
 }
 
@@ -256,10 +262,17 @@ function baixar() {
     document.getElementById("saida").innerText = ""
 }
 
-function copiar(){
+async function copiar(){
     const texto = document.getElementById("saida").innerText
 
     navigator.clipboard.writeText(texto)
 }
+
+async function colar(){
+    const clipboard = await navigator.clipboard.readText()
+    console.log(clipboard)
+    document.getElementById("url").value = clipboard
+}
+
 </script>
 </html>
