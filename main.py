@@ -55,6 +55,12 @@ def faz_cifra(soup):
 
     article = soup.find("pre")
 
+    if article == None:
+        return "Error: URL Inválida"
+
+    # if article == -1:
+    #     return "Error: URL Inválida"
+
     result = [str(i) for i in article]
 
     mapa = ""
@@ -179,10 +185,15 @@ def cria_json(soup, lyrics):
 def executar(dados: Dados):
     if dados.url == "":
         return {"resultado": ""}
+    
     html = pega_html(dados.url)
     if type(html) == str:
         return {"error": html}
+    
     lyric = faz_cifra(html)
+    if lyric == "Error: URL Inválida":
+        return {"error": lyric}
+    
     file = cria_json(html, lyric)
 
     file_id = str(uuid.uuid4())
