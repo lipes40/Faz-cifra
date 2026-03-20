@@ -2,7 +2,7 @@
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 # More info on Python, GitHub Actions, and Azure App Service: https://aka.ms/python-webapps-actions
 
-name: Build and deploy Python app to Azure Web App - Faz-cifra
+name: Build and deploy Python app to Azure Web App - faz-cifra
 
 on:
   push:
@@ -22,7 +22,7 @@ jobs:
       - name: Set up Python version
         uses: actions/setup-python@v5
         with:
-          python-version: '3.14'
+          python-version: '3.11'
 
       # 🛠️ Local Build Section (Optional)
       # The following section in your workflow is designed to catch build issues early on the client side, before deployment. This can be helpful for debugging and validation. However, if this step significantly increases deployment time and early detection is not critical for your workflow, you may remove this section to streamline the deployment process.
@@ -63,14 +63,14 @@ jobs:
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_210585FCBC9F4B779375A45F674E23AA }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_249976A12BA0462F80DF9568FAEB1FE5 }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_A6B1DBCE576845578D1D4B7BC6C5EA2A }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_C73884109A0F44C6BEFD904B2714BF05 }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_F0A0A5EBC4F54004A73D3C65E32C5C48 }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_27D9CEFD242D4505AEFC96B9116635A3 }}
 
       - name: 'Deploy to Azure Web App'
         uses: azure/webapps-deploy@v3
         id: deploy-to-webapp
         with:
-          app-name: 'Faz-cifra'
+          app-name: 'faz-cifra'
           slot-name: 'Production'
           
