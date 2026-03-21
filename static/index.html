@@ -214,6 +214,8 @@ async function gerar() {
     const pre = document.getElementById("saida")
     const carregando = document.getElementById("carregando")
 
+    carregar_msn(carregando)
+
     if (url == "") {
         return
     }
@@ -237,9 +239,7 @@ async function gerar() {
         return
     }
     else {
-        carregando.style.display = "none"
-        carregando.innerText = "Carregando..."
-        carregando.style.color = "white"
+        carregar_msn(carregando)
     }
 
     pre.innerText = data.resultado
@@ -272,6 +272,12 @@ async function colar(){
     const clipboard = await navigator.clipboard.readText()
     console.log(clipboard)
     document.getElementById("url").value = clipboard
+}
+
+function carregar_msn(carregando){
+    carregando.style.display = "none"
+    carregando.innerText = "Carregando..."
+    carregando.style.color = "white"
 }
 
 </script>
